@@ -1,0 +1,64 @@
+@import "./Inc.scss";
+.inner1350 {
+  @include inner(1350px);
+}
+#wrap {
+  padding-top: 120px;
+}
+body {
+  background: #030303;
+}
+header {
+  background: #202020;
+  padding: 20px;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  section {
+    display: flex;
+    position: relative;
+    align-items: center;
+    gap: 30px;
+    // justify-content: space-between;
+  }
+  h1 {
+    img {
+      width: 100px;
+    }
+  }
+
+  .schForm {
+    width: 100%;
+    max-width: 320px;
+    form {
+      display: flex;
+      align-items: center;
+      position: relative;
+      border: 1px solid #585757;
+    }
+    input,
+    button {
+      height: 42px;
+    }
+    input {
+      width: 100%;
+      background: #212121;
+
+      padding: 0 10px;
+      color: #fff;
+    }
+
+    button {
+      background: none;
+      color: #fff;
+      width: 42px;
+    }
+  }
+}
+
+footer {
+  background: #fff;
+  text-align: center;
+  padding: 20px;
+}

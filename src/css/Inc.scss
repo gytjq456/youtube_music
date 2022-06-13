@@ -1,0 +1,9 @@
+@mixin inner($width) {
+  max-width: $width;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@mixin flexDiv() {
+  display: flex;
+}
