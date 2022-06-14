@@ -3,18 +3,19 @@
   @include inner(1350px);
 }
 #wrap {
-  padding-top: 120px;
+  // padding-top: 120px;
 }
 body {
   background: #030303;
 }
 header {
-  background: #202020;
+  // background: #202020;
   padding: 20px;
   position: fixed;
   width: 100%;
   left: 0;
   top: 0;
+  z-index: 9999;
   section {
     display: flex;
     position: relative;
@@ -30,6 +31,7 @@ header {
 
   .schForm {
     width: 100%;
+    background: #212121;
     max-width: 320px;
     form {
       display: flex;
@@ -43,7 +45,7 @@ header {
     }
     input {
       width: 100%;
-      background: #212121;
+      background: none;
 
       padding: 0 10px;
       color: #fff;
@@ -61,4 +63,102 @@ footer {
   background: #fff;
   text-align: center;
   padding: 20px;
+}
+
+.playWrap {
+  padding: 120px 0;
+  box-sizing: border-box;
+  display: flex;
+  height: calc(100vh - 80px);
+
+  .cover {
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .thumnail {
+      text-align: center;
+      padding: 20px 10%;
+    }
+  }
+}
+.music-list {
+  width: 40%;
+  overflow-y: auto;
+  display: flex;
+  padding: 0 40px 0 0;
+  color: #fff;
+  flex-direction: column;
+  ul {
+    // border-top: 1px solid #fff;
+    // padding-top: 12px;
+    margin-top: 12px;
+
+    li {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 10px;
+      gap: 12px;
+      &:hover {
+        background: rgba($color: #fff, $alpha: 0.1);
+      }
+      &:first-child {
+        border-top: 1px solid #666;
+      }
+      &:not(:last-child) {
+        border-bottom: 1px solid #666;
+      }
+    }
+    .img {
+      width: 60px;
+      height: 60px;
+      align-items: center;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+      img {
+        height: 100%;
+        max-width: inherit;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+    h1 {
+      color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.controls {
+  padding: 20px;
+  background: #282828;
+  color: #fff;
+  height: 80px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+
+  .playButtons {
+    display: flex;
+    align-items: center;
+    button {
+      background: none;
+      color: #fff;
+    }
+    .play-paused {
+      margin: 0 40px;
+      svg {
+        font-size: 25px;
+      }
+    }
+  }
+}
+
+h3 {
+  color: #fff;
 }

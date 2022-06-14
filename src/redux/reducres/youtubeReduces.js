@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   popularList: {},
+  player: {},
 };
 
 const counterSlice = createSlice({
@@ -10,6 +11,7 @@ const counterSlice = createSlice({
   reducers: {
     getPopularList(state, action) {
       state.popularList = action.payload.popularList;
+      // state.player = action.payload.popularList.items[0].snippet;
     },
   },
 });
