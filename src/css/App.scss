@@ -100,6 +100,7 @@ footer {
       cursor: pointer;
       padding: 10px;
       gap: 12px;
+      &.on,
       &:hover {
         background: rgba($color: #fff, $alpha: 0.1);
       }
@@ -161,4 +162,13 @@ footer {
 
 h3 {
   color: #fff;
+}
+
+.youtubePlayer {
+  position: fixed;
+  left: -9999px;
+  top: -9999px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
