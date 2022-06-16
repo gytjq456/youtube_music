@@ -22,15 +22,23 @@ const Main = () => {
   const [playerTarget, setPlayerTarget] = useState();
   const [isListClick, setIsListClick] = useState(false);
   const [isListIndex, setItListIndex] = useState();
+  const [test, setTest] = useState(false);
+
+  useEffect(() => {
+    if (!test && playerTarget) {
+      setTest(true);
+    }
+  }, [test]);
 
   const handleReady = (target) => {
     setPlayerTarget(target);
     if (!paused) {
       target.playVideo();
+    } else {
+      target.pauseVideo();
     }
   };
   if (isListClick) {
-    // alert(isListIndex);
     dispatch(youtubeAction.getPlayer(isListIndex)).then(() => {
       setIsListClick(false);
       setPaused(false);
@@ -47,19 +55,39 @@ const Main = () => {
   };
 
   if (loading) {
-    return <ClipLoader color="red" loading={loading} size={150} />;
+    return (
+      <div className="loading">
+        <ClipLoader color="red" loading={loading} size={150} />
+      </div>
+    );
   }
   return (
     <div>
       <div className="playWrap">
         <div className="cover">
-          <div className="thumnail">
-            <img
-              src={`https://img.youtube.com/vi/${player.snippet.resourceId.videoId}/maxresdefault.jpg`}
-              alt=""
-            />
-          </div>
+          {playerTarget ? (
+            <div
+              className="thumnail"
+              onClick={() => {
+                musicPlay();
+                setTest(!test);
+              }}
+            >
+              <img
+                src={`https://img.youtube.com/vi/${player.snippet.resourceId.videoId}/maxresdefault.jpg`}
+                alt=""
+              />
+              <div className={`clickIcon ${test ? "on" : ""}`}>
+                <p>
+                  {!paused ? <FontAwesomeIcon icon={faPlay} /> : <FontAwesomeIcon icon={faPause} />}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <ClipLoader color="red" size={150} />
+          )}
         </div>
+
         <div className="music-list">
           <h2>재생 목록</h2>
           <Scrollbars

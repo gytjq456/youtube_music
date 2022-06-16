@@ -66,12 +66,13 @@ footer {
 }
 
 .playWrap {
-  padding: 120px 0;
+  padding-top: 120px;
   box-sizing: border-box;
   display: flex;
   height: calc(100vh - 80px);
 
   .cover {
+    height: 100%;
     width: 60%;
     display: flex;
     align-items: center;
@@ -79,9 +80,50 @@ footer {
     .thumnail {
       text-align: center;
       padding: 20px 10%;
+      position: relative;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .clickIcon {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        transform: scale(0.5);
+
+        p {
+          width: 80px;
+          height: 80px;
+          background: rgba($color: #000000, $alpha: 0.5);
+          color: #fff;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          svg {
+            font-size: 24px;
+          }
+          span {
+          }
+        }
+        &.on {
+          animation: thumnailIcon 1s backwards;
+        }
+      }
+    }
+
+    .override {
     }
   }
 }
+
 .music-list {
   width: 40%;
   overflow-y: auto;
@@ -171,4 +213,26 @@ h3 {
   width: 0;
   height: 0;
   overflow: hidden;
+}
+
+@keyframes thumnailIcon {
+  0% {
+    opacity: 1;
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.loading {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
