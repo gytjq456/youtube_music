@@ -22,13 +22,26 @@ const Main = () => {
   const [playerTarget, setPlayerTarget] = useState();
   const [isListClick, setIsListClick] = useState(false);
   const [isListIndex, setItListIndex] = useState();
-  const [test, setTest] = useState(false);
-
+  const [thumIsClick, setThumIsClick] = useState(false);
+  const [playTime, setPlayTime] = useState("");
   useEffect(() => {
-    if (!test && playerTarget) {
-      setTest(true);
+    if (!thumIsClick && playerTarget) {
+      setThumIsClick(true);
     }
-  }, [test]);
+  }, [thumIsClick]);
+
+  let timer = null;
+  useEffect(() => {
+    if (!paused) {
+      console.log("playerTarget", playerTarget);
+      timer = setInterval(() => {
+        setPlayTime(setDuration(playerTarget.playerInfo.currentTime));
+      }, 1000);
+    }
+    return () => {
+      clearInterval(timer);
+    };
+  }, [playerTarget, paused]);
 
   const handleReady = (target) => {
     setPlayerTarget(target);
@@ -38,6 +51,15 @@ const Main = () => {
       target.pauseVideo();
     }
   };
+
+  const handleEnd = (target) => {
+    console.log("끝남", target.playerInfo.currentTime);
+  };
+
+  const handlePlay = (target) => {
+    console.log("시작중", target.playerInfo.currentTime);
+  };
+
   if (isListClick) {
     dispatch(youtubeAction.getPlayer(isListIndex)).then(() => {
       setIsListClick(false);
@@ -51,6 +73,31 @@ const Main = () => {
       playerTarget.playVideo();
     } else {
       playerTarget.pauseVideo();
+    }
+  };
+
+  const setDuration = (time) => {
+    time = Math.round(time);
+    let hours = Math.floor(time / 3600);
+    let minutes = Math.floor((time - hours * 3600) / 60);
+    let seconds = time - hours * 3600 - minutes * 60;
+    if (isNaN(hours)) {
+      return "00:00";
+    }
+
+    if (hours < 10) {
+      hours = "0" + hours;
+    }
+    if (minutes < 10) {
+      minutes = "0" + minutes;
+    }
+    if (seconds < 10) {
+      seconds = "0" + seconds;
+    }
+    if (hours == 0) {
+      return minutes + ":" + seconds;
+    } else {
+      return hours + ":" + minutes + ":" + seconds;
     }
   };
 
@@ -70,14 +117,14 @@ const Main = () => {
               className="thumnail"
               onClick={() => {
                 musicPlay();
-                setTest(!test);
+                setThumIsClick(!thumIsClick);
               }}
             >
               <img
                 src={`https://img.youtube.com/vi/${player.snippet.resourceId.videoId}/maxresdefault.jpg`}
                 alt=""
               />
-              <div className={`clickIcon ${test ? "on" : ""}`}>
+              <div className={`clickIcon ${thumIsClick ? "on" : ""}`}>
                 <p>
                   {!paused ? <FontAwesomeIcon icon={faPlay} /> : <FontAwesomeIcon icon={faPause} />}
                 </p>
@@ -122,17 +169,27 @@ const Main = () => {
         </div>
       </div>
       <div className="controls">
-        <div className="playButtons">
-          <button className="prevButton">
-            <FontAwesomeIcon icon={faBackward} />
-          </button>
-          <button className="play-paused" onClick={() => musicPlay()}>
-            {paused ? <FontAwesomeIcon icon={faPlay} /> : <FontAwesomeIcon icon={faPause} />}
-          </button>
-          <button className="nextButton">
-            <FontAwesomeIcon icon={faForward} />
-          </button>
-        </div>
+        {playerTarget && (
+          <>
+            <div className="playButtons">
+              <button className="prevButton">
+                <FontAwesomeIcon icon={faBackward} />
+              </button>
+              <button className="play-paused" onClick={() => musicPlay()}>
+                {paused ? <FontAwesomeIcon icon={faPlay} /> : <FontAwesomeIcon icon={faPause} />}
+              </button>
+              <button className="nextButton">
+                <FontAwesomeIcon icon={faForward} />
+              </button>
+            </div>
+            <div className="duration">
+              <p>
+                {playTime === "" ? "00:00" : playTime} /
+                {setDuration(playerTarget.playerInfo.duration)}
+              </p>
+            </div>
+          </>
+        )}
       </div>
       {player && (
         <div className="youtubePlayer">
@@ -140,6 +197,9 @@ const Main = () => {
             autoplay
             videoId={player.snippet.resourceId.videoId}
             onReady={(e) => handleReady(e.target)}
+            onEnd={(e) => handleEnd(e.target)}
+            onPlay={(e) => handlePlay(e.target)}
+            onChangeState={(e) => console.log("onChangeState:", e.state)}
           />
         </div>
       )}
